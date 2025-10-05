@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart AI Traffic Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --info: #1abc9c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--light);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--light);
+        }
+
+
+
+
+        
+        .hero {
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--light);
+            color: var(--primary);
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-primary {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        /* Main Content */
+        main {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            background-color: var(--primary);
+            color: white;
+            font-size: 2rem;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .feature-content {
+            padding: 20px;
+        }
+        
+        .feature-content h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        /* Dashboard Preview */
+        .dashboard-preview {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 60px;
+        }
+        
+        .dashboard-header {
+            background-color: var(--dark);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .control-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .red { background-color: var(--danger); }
+        .yellow { background-color: var(--warning); }
+        .green { background-color: var(--secondary); }
+        
+        .dashboard-content {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .dashboard-card {
+            background-color: var(--light);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .card-header {
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-header i {
+            color: var(--primary);
+        }
+        
+        .traffic-visualization {
+            height: 200px;
+            background-color: white;
+            border-radius: 5px;
+            display: flex;
+            align-items: flex-end;
+            padding: 10px;
+            gap: 10px;
+        }
+        
+        .traffic-bar {
+            flex: 1;
+            background-color: var(--primary);
+            height: 70%;
+            transition: height 0.5s ease;
+        }
+        
+        .traffic-bar:nth-child(2) {
+            height: 90%;
+            background-color: var(--danger);
+        }
+        
+        .traffic-bar:nth-child(3) {
+            height: 50%;
+        }
+        
+        .traffic-bar:nth-child(4) {
+            height: 65%;
+            background-color: var(--warning);
+        }
+        
+        .intersection-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            height: 200px;
+            background-color: #555;
+            gap: 2px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .road {
+            background-color: #777;
+        }
+        
+        .center {
+            background-color: #555;
+        }
+        
+        .traffic-light {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            position: relative;
+            margin: 5px;
+        }
+        
+        .active {
+            background-color: var(--secondary);
+        }
+        
+        /* How It Works */
+        .steps {
+            margin-bottom: 60px;
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: 30px;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .step {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+        
+        .step-number {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .step-content h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        /* Implementation Section */
+        .implementation {
+            margin-bottom: 60px;
+        }
+        
+        .code-block {
+            background-color: var(--dark);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        
+        code {
+            font-family: "Courier New", Courier, monospace;
+            line-height: 1.5;
+            white-space: pre;
+        }
+        
+        .note {
+            background-color: var(--light);
+            padding: 15px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        /* Contact Section */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a {
+            color: #bbb;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-traffic-light"></i>
+                    <span>SmartTraffic AI</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="hero">
+                <h1>Intelligent Traffic Management System</h1>
+                <p>Reduce congestion, minimize delays, and decrease emissions with our AI-powered traffic management solution that adapts in real-time to changing traffic conditions.</p>
+                <a href="#demo" class="btn btn-primary">View Demo</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Features Section -->
+            <section id="features">
+                <div class="section-title">
+                    <h2>Key Features</h2>
+                    <p>Our Smart AI Traffic Management System provides cutting-edge capabilities to transform urban mobility.</p>
+                </div>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Real-time Monitoring</h3>
+                            <p>Advanced computer vision algorithms detect and track vehicles across multiple lanes and directions with high accuracy.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>AI-powered Optimization</h3>
+                            <p>Machine learning models analyze traffic patterns and predict congestion before it happens, enabling proactive management.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-traffic-light"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Dynamic Signal Control</h3>
+                            <p>Traffic light timings adjust automatically based on current and predicted traffic volumes to optimize flow across the network.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Analytics Dashboard</h3>
+                            <p>Comprehensive data visualization and reporting tools provide insights on traffic patterns and system performance.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Emergency Vehicle Priority</h3>
+                            <p>Automatic detection and prioritization of emergency vehicles ensures rapid response times when seconds count.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Environmental Impact</h3>
+                            <p>Reduced idle times and improved traffic flow lead to lower emissions and better air quality in urban areas.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dashboard Preview -->
+                <div id="demo" class="dashboard-preview">
+                    <div class="dashboard-header">
+                        <div>Smart Traffic Management Dashboard</div>
+                        <div class="controls">
+                            <div class="control-dot red"></div>
+                            <div class="control-dot yellow"></div>
+                            <div class="control-dot green"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-content">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <span>Traffic Volume by Direction</span>
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="traffic-visualization">
+                                <div class="traffic-bar"></div>
+                                <div class="traffic-bar"></div>
+                                <div class="traffic-bar"></div>
+                                <div class="traffic-bar"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <span>Intersection Status</span>
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="intersection-grid">
+                                <div class="road"></div>
+                                <div class="road">
+                                    <div class="traffic-light active"></div>
+                                </div>
+                                <div class="road"></div>
+                                
+                                <div class="road">
+                                    <div class="traffic-light"></div>
+                                </div>
+                                <div class="center"></div>
+                                <div class="road">
+                                    <div class="traffic-light"></div>
+                                </div>
+                                
+                                <div class="road"></div>
+                                <div class="road">
+                                    <div class="traffic-light active"></div>
+                                </div>
+                                <div class="road"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <span>System Recommendations</span>
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <ul>
+                                <li>Increase North-South green time by 15s due to heavy volume</li>
+                                <li>Coordinate with upstream intersections to optimize flow</li>
+                                <li>Monitor East approach for potential congestion</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <span>Performance Metrics</span>
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <ul>
+                                <li><strong>Average Wait Time:</strong> 45s (32% reduction)</li>
+                                <li><strong>Traffic Flow Rate:</strong> 1,200 vehicles/hour</li>
+                                <li><strong>System Response Time:</strong> 0.8s</li>
+                                <li><strong>Estimated Emissions Reduction:</strong> 28%</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- How It Works Section -->
+            <section id="how-it-works">
+                <div class="section-title">
+                    <h2>How It Works</h2>
+                    <p>Our intelligent system uses a multi-layered approach to optimize traffic flow in real-time.</p>
+                </div>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Data Collection</h3>
+                            <p>Traffic sensors, cameras, and IoT devices collect real-time data on vehicle counts, speeds, queue lengths, and traffic density across the road network. This data provides a comprehensive view of current traffic conditions.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>AI Analysis</h3>
+                            <p>Our machine learning models process the collected data to understand traffic patterns, identify congestion points, and predict how traffic will evolve in the next 5-30 minutes. The system considers historical patterns, current conditions, and external factors like weather and events.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Optimization Algorithm</h3>
+                            <p>The core optimization engine calculates the optimal traffic light timings for each intersection based on current and predicted traffic conditions. The algorithm balances wait times across all approaches and prioritizes directions with heavier traffic.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Real-time Adjustment</h3>
+                            <p>Traffic light controllers receive and implement the optimized timing plans. The system continuously monitors traffic and makes adjustments in real-time to adapt to changing conditions, ensuring optimal flow is maintained.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>Network Coordination</h3>
+                            <p>Adjacent intersections are coordinated to create "green waves" that allow vehicles to move through multiple intersections without stopping, further reducing congestion and improving traffic efficiency across the entire network.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            
+            
+            <!-- Contact Section -->
+            <section id="contact">
+                <div class="section-title">
+                    <h2>Contact Us</h2>
+                    <p>Interested in implementing our Smart AI Traffic Management System in your city? Get in touch with our team.</p>
+                </div>
+                
+                <div class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" placeholder="Your Name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Your Email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="organization">Organization</label>
+                        <input type="text" id="organization" placeholder="City/Organization">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="project-type">Project Type</label>
+                        <select id="project-type">
+                            <option value="">Select Project Type</option>
+                            <option value="pilot">Pilot Project</option>
+                            <option value="full">Full Implementation</option>
+                            <option value="consultation">Consultation</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="5" placeholder="Tell us about your traffic management needs"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SmartTraffic AI</h3>
+                    <p>Revolutionizing urban mobility with intelligent, AI-powered traffic management solutions that make cities smarter and more sustainable.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Documentation</a></li
