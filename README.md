@@ -14,6 +14,12 @@ Features:
 
 5. Dynamic Traffic Optimization based on congestion levels
 
+6. Human-in-the-Loop Feedback System (Approve/Reject buttons)
+
+7. AI Confidence Scoring based on user feedback
+
+8. Real-time Confidence Visualization Graph (Chart.js)
+
 Tech Stack:
 
 Computer Vision: YOLOv8 (Ultralytics), OpenCV
@@ -28,12 +34,19 @@ Frontend: HTML, CSS, Chart.js
 
  System Architecture
 Traffic Image → YOLOv8 → Vehicle Detection → State Extraction
-                ↓
+                  ↓
              DQN Agent → Signal Decision
-                ↓
-         LLaMA3 (Ollama) → Traffic Recommendation
-                ↓
-        Flask + Socket.IO → Dashboard
+                  ↓
+           Confidence Score Calculation
+                  ↓
+        LLaMA3 (Ollama) → Traffic Recommendation
+                  ↓
+       User Feedback (Approve/Reject)
+                  ↓
+         RLHF Learning Update
+                  ↓
+Flask + Socket.IO → Dashboard (with Confidence Graph)
+                
 📂 Project Structure
 ├── detect_traffic.py     # Main detection + DQN integration
 ├── dqn_agent.py         # Reinforcement learning agent
@@ -55,9 +68,15 @@ How It Works:
 
 4. DQN agent selects optimal signal action
 
-5. LLaMA3 generates human-readable recommendation
+5. AI confidence score is computed
 
-6. Results displayed on dashboard
+6. LLaMA3 generates human-readable recommendation
+
+7. User interacts via dashboard (Approve/Reject)
+
+8. Feedback is used to improve the model (RLHF)
+
+9. Results + confidence graph displayed on dashboard
 
 Results:
 
